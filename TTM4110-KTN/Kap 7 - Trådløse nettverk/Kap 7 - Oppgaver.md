@@ -1,0 +1,138 @@
+<h3 style="color:#7190c9">Begreper</h3>
+- Wireless hosts   
+- Wireless links   
+- Base stations   
+- Infrastructure mode   
+- Ad Hoc mode   
+- Handover   
+	- Hva er handover?
+		- En enhet bytter fra en basestasjon til en annen
+- SNR   
+	- Hva brukes SNR til?
+		- Brukes for å måle forholdet mellom ønsket signal og bakgrunnsstøy
+		- Dette er forholdet mellom signalets styrke og støyens styrke. Jo høyere SNR, desto bedre er kvaliteten på signalet i forhold til støyen. 
+- BER   
+	- Hva brukes bit error rate til?
+		- Måle hvor mange bitfeil man har når man bruker en trådløs kommunikasjonskanal
+- 802.11 Wireless LAN (Wifi)   
+- Basic Service Set   
+	- Hva består et BSS av?
+		- Et AP og enhetene som er tilkoblet dette
+- Association     
+	- Hvorfor er kanaler viktig?    
+		- Wifi opererer innen for et frekvensområde. Dette frekvensområdet blir delt opp i ulike kanaler. Ved å sette access-points opp i ulike kanaler hindrer man at man får overlapp mellom to enheter som kobler seg til å sender/mottar data fra ulike basestasjoner
+- Passiv scanning     
+	- Hvordan fungere passiv scanning?   
+		- AP sender ut beacon frames
+		- Host velger et (av kanskje flere) AP
+		- Host sender **request** om å koble seg til
+		- Får en **response** tilbake
+- Aktiv scanning    
+	- Hvordan fungerer aktiv scanning?   
+		- Host sender ut probe signal
+		- AP sender forslag
+		- Host sender **request** om å koble seg til
+		- Får en **response** tilbake
+- Beacon frames     
+- Probe signal    
+- SSID      
+	- Hvorfor brukes SSID?   
+		- Det er et navn som identifiserer et trådløst lokalt nettverk (WLAN). SSID brukes til å skille mellom ulike WLAN-er og tillate enheter å koble seg til det spesifikke nettverket de ønsker å bli med i.
+	- Hører SSID til AP?   
+		- SSID-et identifiserer ikke direkte access pointet, men heller det trådløse nettverket (WLAN) som access pointet tilhører
+- Wifi CSMA/CA     
+	- Hvordan fungerer CSMA/CA?
+		- Sender
+			- Sender sjekker om linken er ledig (venter DIFS). Dersom linken er ledig -> send
+			- Dersom linken ikke er ledig -> Binary Exponential Backoff (setter en timer). Tell ned bare når linken er ledig. Når timer = 0 -> send pakke. 
+			- Dersom man mottar ACK -> Send ny pakke
+			- Dersom man ikke mottar ACK -> Samme pakke med høyere intervall på Backoff
+		- Mottaker
+			- Mottar pakke -> vent SIFS -> send ACK
+	- Hvorfor har ikke CSMA Collision Detection? 
+		- Vanskelig å oppdage kollisjoner. Prøver derfor å unngå kollisjoner før de oppstår
+	- Hva er forskjellen på om en ACK blir mottatt eller ikke?
+		- Vi går til Random Binary Backoff
+		- <span style="color: #90CEA3;font-weight:bold;">Mottar</span>: Ny pakke -> samme intervall
+		- <span style="color: #D5919C;font-weight:bold;">Ikke mottat</span>: Samme pakke -> større intervall
+	- Hvordan hjelper ACK-er i trådløse nettverk?    
+		- Siden det er en høyere sjanse for bit-feil trenger vi ACK-er for å bekrefte at informasjonen er mottatt på korrekt måte 
+		- Vi trenger også ACK-er pga Hidden Terminal. To noder vet ikke at de sender samtidig fordi de kan ikke høre hverandre. 
+- DIFS og SIFS     
+	- Hvorfor vente for DIFS?   
+		- Man venter DIFS **for** å sjekke om kanalen er ledig. Ikke sjekke at kanalen er ledig og **så** vente DIFS
+	- Hva er lengst av DIFS og SIFS?   
+		- DIFS er lengst
+		- SIFS er kortest
+	- Når venter man DIFS og SIFS?    
+		- Uten RTS/CTS -> Fra starten venter DIFS for å sjekke om kanalen er ledig så sende DATA. Venter SIFS før man sender ACK
+		- Med RTS/CTS -> Venter DIFS før man sender RTS. Venter SIFS mellom
+			- Sending av CTS
+			- Mottak av CTS og sending av DATA
+			- Mottak av DATA og sending av ACK
+- RTS og CTS   
+	- Hvordan fungerer det?
+		- En node sender en RTS forespørsel til AP med tid
+		- AP sender CTS til alle noder
+		- Etter at DATA er sendt -> AP sender ACK til alle noder
+		- Alle nodene vet at DATA er sendt og de kan bruke kanalen
+- Hidden terminal   
+	- Hvordan hjelper ACKer til med Hidden Terminal problemet? 
+		- I et nettverk de node A og node B begge kan nå node C, men ikke høre hverandre. Dersom både node A og B sender samtidig vil de ikke kunne oppdage at det har skjedd en kollisjon. Vi trenger da at node C sender ACK som bekrefter at man har mottatt overføringen. 
+- Adressering   
+	- Hvorfor trenger vi 4 adressefelt?     
+		- En til source, en til destination og den siste til en mellomstasjon på veien til destinasjonen. Siste til Ad-Hoc nettverk
+- Handover (samme subnet)    
+	- Hvordan fungerer handover innenfor samme subnet?
+		- Hvis en host bytter fra AP 1 til AP 2 sender AP 2 ut en broadcast med MAC-adresse for hosten. Ettersom at switchen er "self-learning" oppdaterer den switching tabellen slik at den vet hvilket interface denne hosten kan nås på (innenfor det nye Basic Service Set). 
+- Cellular    
+- Roaming    
+	- Hvorfor er Inter carrier settlements viktig?    
+		- Hjelper til med å dele opp inntektene når en enhet benytter seg av tjenester på et annet nettverk enn hjemmenettverket
+- IMSI   
+	- Hva er IMSI?   
+		- En slags MAC-adresse for cellulære nettverk. Det er slik enheten blir gjenkjent. Blir lagret på SIM-kortet
+- Home Subscriber Service    
+	- Hvorfor trenger man HSS?     
+		- Database som inneholder informasjon om enheter som har dette nettverket som hjemmenettverk. Tjenester inkluderer autentisering på nettverket, info om abonnement og hjelp når enheten roamer på andre nettverk
+- Mobility Management Entity     
+	- Hvorfor trenger man MME?     
+		- Hjelper til med autentisering og inneholder mer tracker også enhetene slik at man til enhver tid vet hvor de er
+- PDN gateway   
+	- Hva hjelper en PDN gateway til med å gjøre?   
+		- NAT 
+- LTE   
+	- Hva er LTE?    
+		- En standard for trådløs kommunikasjon for mobile enheter
+	- Hvorfor bruker LTE tunneling?    
+		- Tunneling hjelper til med mobilitet ved at enheten ikke trenger å bytte IP-adresse når man beveger seg til et annet område
+
+
+<h3 style="color:#F4B9B2">Relasjoner</h3>
+- Hva er forskjellen på Infrastructure mode og Ad-Hoc mode?   
+	- Ad-Hoc mode har ingen Access point. Hosts kommuniserer direkte med hverandre
+- Hva er forskjellen på Ad-Hoc og P2P?    
+	- Likhet -> direkte enhets-til-enhet kommunikasjon
+	- Forskjeller -> Ad hoc mode der infrastruktur er utilgjengelig, mens P2P-nettverk er mer omfattende og brukes til en rekke formål, inkludert filutveksling, deling av ressurser og distribuert databehandling.
+- Hva er forskjellene på en trådløs link og en vanlig link?   
+	- Ikke like god signalstyrke
+	- Interference fra andre enheter
+- Hva er relasjonen mellom et BBS og et WLAN?    
+	- Et WLAN består av flere BSS koblet sammen med en switch
+- Hva er forholdet mellom SNR og BER?      
+	- Relasjonen er at man kan bruke SNR til å beskrive BER. Dersom vi har høy SNR vil vi få færre bitfeil
+	- Jo høyere SNR (Signal-to-noise rate) desto lavere BER (bit-error-rate)
+	- Når den ene går opp går den andre ned
+- Hva er forskjellen på passiv og aktiv skanning?    
+	- Passiv: AP sender ut **Beacon Frames.** Host scanner
+	- Aktiv: Host sender ut **Probe signal.** AP kommer med forslag
+- Hva er forskjellen på Wifi CSMA/CA og Ethernet CSMA/CD?     
+	- Forskjellen er at CA unngår kollisjoner, mens CD oppdager kollisjoner. CA brukes i trådløse nettverk da kollisjoner er vanskelige å oppdage
+	- Likheten er at begge er CSMA (lytter til kanalen før de sender og tillater flere enheter å bruke samme kanal) 
+- Hva er forskjellen på WiFi og Cellular?    
+	- WiFi er lokalt, mens Cellular dekker et mye større område
+	- WiFi har en enkel infrastruktur, mens Cellular har et omfattende system av basestasjoner
+	- Wifi baserer seg på 802.11 standarden, mens Cellular bruker 4G/LTE 
+- Hvordan er basestasjonene i Cellular annerledes enn for Wifi?     
+	- Koordinerer mellom seg for å: Fasilitere mobilitet og Load management
+

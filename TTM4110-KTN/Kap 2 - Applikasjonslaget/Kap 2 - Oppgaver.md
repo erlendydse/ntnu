@@ -1,0 +1,45 @@
+<h3 style="color:#93c6c3">Begreper og oppgaver</h3>
+- HTTP    
+	- Hva er forskjellen på persistent connection og non-persistent       
+		- Persistent - Alle forespørsler og svar blir sendt over samme forbindelse
+		- Non-persistent connection - Her må klienten opprette en ny kobling til serveren for hver forespørsel
+	- Bruker den persistent eller non-persistent?     
+		- Persistent fra HTTP/2.0
+- Get    
+- Conditional-Get   
+	- Får man tak i en nettside hvis man sender en conditional-get?      
+		- Nei kun en beskjed på om nettsiden er endret
+	- Hvordan ser man om man har en conditional Get?     
+		- Hvis den har et if-modified-since felt 
+	- Hvem er det som sender en conditional-get (bruker eller webcach)?     
+		- Brukeren ber om en ressurs fra webcachen. **Webcachen sender conditional-get til serveren.** Dersom serveren sier 304 Not Modified sender Webcachen den cachede versjonen til brukeren
+- Webcaches     
+- Cookies   
+	- Hvordan fungerer cookies?    
+		- ![[Pasted image 20240330172642.png]]
+- Buffer   
+- Encoding   
+- DASH   
+- Manifestfil   
+	- Hvor ligger manifestfilen?    
+		- I CDN nettverk 
+- CDN   
+- DNS   
+	- Hva gjør DNS?   
+		- Oversetter domenenavn til IP-adresser 
+- Socket   
+	- What is purpose of a socket?    
+		- For å opprette en kobling slik at man kan sende informasjon til hverandre. Blir som å ringe til hverandre. Man må opprette kontakt før man kan begynne å snakke 
+
+
+<h3 style="color:#F4B9B2">Relasjoner mellom begreper</h3>
+- Hva er forskjellen på TCP og HTTP
+	- TCP er som posten. Den jobber med å sikre overføringen av brevene
+	- HTTP er hva som står inne i brevene. Hva som etterspørres og hva som sendes
+- Hva er forskjellen på get og Conditional-get?     
+	- Get henter en nettside
+	- Conditional-get spør om den nettsiden den har er oppdatert versjon
+- Hva er sammenhengen mellom Webcaches og Conditional-Get?      
+	- En bruker spør om en nettside. Denne forespørselen blir sendt videre til webcachen. Webcachen sender en conditional-get til den originiale serveren. Den originale serveren sender en 304 Not modified. Webcachen sender den cachede versjonen til brukeren eller en helt ny versjon dersom den er endret siden sist
+- Hva er forskjellen på temporal og spatial encoding?     
+	- Temporal ser på bits som endrer seg. Spatial ser på bits som ligger etter hverandre

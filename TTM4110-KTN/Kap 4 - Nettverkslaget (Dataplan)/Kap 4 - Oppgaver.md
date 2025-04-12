@@ -1,0 +1,75 @@
+<h3 style="color:#93c6c3">Begreper og oppgaver</h3>
+- Forwarding table     
+- Generalized forwarding    
+- Match plus action    
+	- Hva er Match-plus-action?   
+		-  I tillegg til forwarding kan en ruter også gjennomføre flere handlinger som modify, drop og send-to-controller
+- Destination-based forwarding   
+- Longest prefix matching
+	- Hva er problemet som gjør at man må bruke Longest Prefix Matching?   
+		- I store nettverk kan det være mange forskjellige rutere tilgjengelige for å nå forskjellige destinasjonsadresser. LPM sørger for at man velger den mest effektive veien 
+	- Brukes LPM i Destination-Based eller Generalized?
+		- Begge to, men fortrinnsvis i Destination-based
+- Switching fabric    
+- Interconnection networks    
+- Head-of-line blocking   
+	- Hvordan fungerer HOL-blocking?
+		- En pakke (A) har ledig output port, men kan ikke overføres hit da en pakke foran den i køen venter på tur over å bli overført til sin output port
+- Buffer management   
+	- Hva er marking?    
+		- Pakker kan f.eks. få ulik prioritering
+- Ulike typer scheduling   
+- Interface    
+	- Hva er et nettverksinterface?   
+		- Den fysiske komponenten/grensesnittet som lar enheten koble seg på nettet f.eks en ethernetport. Det er interfacet som er koblet til en ip-adresse og ikke enheten
+	- Hvis en ruter/host har flere interfaces betyr det at de kan?   
+		- Nås ved bruk av flere ulike ip-adresser 
+- DHCP    
+	- Hvordan fungerer DHCP?    
+		- To muligheter: 
+		    - Sender "discover" for å se om det finnes en DHCP server der. Server svarer med en DHCP "offer" melding med en IP-adresse. 
+		    - Sender en "request" for å spørre om den kan bruke en spesifikk ip-adresse. "ACK" ja du kan bruke denne ip-adressen
+		    - <span style="color: #F28990;">Huske på:</span> 1) Discover oHffer 2) reCuest yaPP-(den kan du bruke)
+	- What is the purpose of the Dynamic Host Configuration Protocol (3 muligheter)?    
+		- For en host å få tak i en IP-adresse
+		- For en host å få tak i adressen til første nettverksruter
+		- For en host å få tak i adresse til DNS-server
+- Subnet    
+	- Hvordan finne ut hvor mange hosts som kan være på et subnet?    
+		- Se hvor mange bits som kan brukes til host, 2 opphøyd i dette og trekk fra 2
+	- Hvor mange hostadresser kan man bruke med /24 subnet?   
+		- 254. 
+		- Vi har 256 ulike adresser men vi kan ikke bruke den første eller den siste. 256-2 = 254
+- CIDR    
+- IPv 4 vs IPv 6    
+	- Hva er forskjellene på headerfelt?
+		- IPv 6 tillater <span style="color: #D5919C;font-weight:bold;">ikke</span> fragmentering og har <span style="color: #D5919C;font-weight:bold;">ikke</span> checksum og <span style="color: #D5919C;font-weight:bold;">ikke</span> options
+		- IPv 6 header har **fast 40 bytes lengde**, mens ipv 4 har variabel lengde på mellom 20-60 bytes
+- Tunneling   
+	- Hva er tunneling   
+		- I overgangen fra IPv4 til IPv6 kan man bruke IPv4 nettverk til å sende IPv6 datagrammer. Man sender et IPv4 datagram med IPv6 datagrammet som payload. På denne måten kan man bruke det eksisterende nettverket med rutere som kun vet hvordan man håndterer IPv4
+- NAT   
+	- Hvorfor brukes NAT?
+		- For å bevare den begrensende mengden av alle IPv4 adresser som finnes i verden slik at vi ikke bruker de opp 
+	- Hvordan fungerer NAT?
+		- I ruteren så oversetter den mellom privat og offentlig IP-adresse. 
+		- Når en pakke sendes ut fra nettverket: -> offentlig
+		- Når en pakke sendes inn til nettverket: offentlig -> privat
+	- Hvorfor endrer NAT også portnummer?
+		- NAT-ruteren er nødt til å holde kommunikasjonen mellom ulike enheter bort fra hverandre. Den bruker derfor ulike port-nummer slik at den ikke blander meldinger. På denne måten er den nødt til å bytte port-nummer fra enheten og holde styr på hvilket port-nummer slik at den kan bytte tilbake
+- Quality of Service    
+	- Hva er det?
+		- Tenk på QoS som en "trafikkpoliti" for nettverket ditt. Det sørger for at viktig trafikk, som stemmesamtaler og videostrømming, får førsteprioritet, mens mindre viktig trafikk, som e-post eller nedlastinger, må vente.
+
+
+<h3 style="color:#F4B9B2">Relasjoner mellom begrep</h3>
+- Hva er forskjellen på dataplanet og kontrollplanet?   
+	- Dataplanet er forwarding, mens kontrollplanet er routing
+- Hva er forskjellen på destination-based-forwarding og generalized forwarding?   
+	- Destination-based er forwarding kun basert på IP-adresse, mens generalized er ved å bruke andre header-felt
+	- Destination-based kan forwarding, mens generalized kan **Match plus action** som er flere handlinger blant annet drop, forward, modify eller send to controller
+- Hva er relasjonen mellom Tunneling og NAT?    
+	- Begge handler om relasjonen mellom IPv 4 og IPv 6. Tunneling er å sende IPv 6 segmenter i IPv 4 rutere, mens NAT er for å bevare antall IPv 4 adresser
+- Hva er forskjellene på de to måtene for DHCP?   
+	- Discover of oHffer er kun dersom enheten ikke husker de tidligere ip-adressen. Dersom den ikke husker må man gå gjennom alle fire stegene
+	- Dersom man husker og ønsker å bruke IP-adressen igjen kan man skippe de to første stegene. 

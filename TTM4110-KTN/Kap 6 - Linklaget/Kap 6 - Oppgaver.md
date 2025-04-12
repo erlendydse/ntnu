@@ -1,0 +1,115 @@
+<h3 style="color:#93c6c3">Begreper og oppgaver</h3>
+- Error detection/correction     
+- Cyclic Redundancy Check    
+	- Kan CRC rette opp feil?   
+		- Nei 
+	- Hvordan fungerer mottaker og sender -siden i CRC   
+		- Sender - Tar data **D** og generator **G** og bruker XOR for å finne remainder **r** 
+		- Mottaker - Tar data **D+r** og gjennomfører XOR med **G**. 
+			- Remainder = 0 -> <span style="color: #90CEA3;font-weight:bold;">suksess</span>
+			- Remainder != 0 -> <span style="color: #D5919C;font-weight:bold;">det har skjedd en feil</span> 
+- Parity Check    
+- Single Bit Parity    
+	- Hvordan fungerer single bit parity?     
+		- Legger til en ekstra bit. Denne bit-en sørger for at det alltid er et partall antall 1-ere
+- Two-D Parity     
+	- Hva er fordelen med Two-D parity check     
+		- Den kan både detektere og fikse bit-feil
+- Point-to-point vs Broadcast       
+	- Hva er forskjellen på p-to-p og broadcast?    
+		- Antall enheter som deler linken. 
+- MAC-protokoll     
+	- Hvorfor trenger man ikke MAC-protokoller for Point-to-point?    
+		- Fordi ingen deler linken
+	- Hva heter de tre gruppene av MAC-protokoller?     
+		- Random Access
+		- Channel partitioning
+		- Taking turns
+- Random Access     
+	- Hva kjennetegner random access    
+		- Random access protokoller kjennetegnes av at man kjemper om båndbredden. Tenk på som en ekslusiv nattklubb. Det er tilfeldig hvem som kommer inn og derfor blir det konkurranse om plassene.
+- Slotted-ALOHA     
+	- Hvordan fungerer Slotted-ALOHA    
+		- Alle sender når de vil
+		- Dersom kollisjon -> For alle slottider som kommer. Hver node flipper en kron/mynt (eller annen sannsynlighet). Enten sender de eller ikke. Dette gjøres for alle slottider helt til alle har fått sendt det de skal
+	- Hva er best av slotted og unslotted ALOHA?   
+		- Slotted - færre kollisjoner, vanskeligere å synkronisere 
+		- Unslotted - flere kollisjoner, enklere å styre
+- CSMA/CD    
+	- Hvordan fungerer CSMA/CD?
+		- Alle ser om linken er ledig før man sender. Sender bare dersom linken er ledig
+		- Dersom kollisjon -> Binary Backoff
+			- Venter en tid som er tilfeldig innenfor et intervall som er eksponentielt stor med antall kollisjoner. 
+	- Hvorfor regnes CSMA som random access selv om den venter på tur?    
+		- Fordi enhetene konkurrerer om tilgang til kanalen ved å sende data når den er ledig, uten en fast tidsplan. Det er heller ingen garanti for båndbredde
+	- Hva betyr CSMA?   
+		- Carrier Sense - Kan lytte på kanalen for å høre om andre sender
+		- Multiple Access - Alle nodene kan sende på samme link
+- Binary Exponential Backoff    
+	- Hvordan fungerer Binary Exponential Backoff?    
+		- Hvis vi har støtt på n kollisjoner velger vi et tilfeldig tall K fra review-frequency: low
+^{n-1}$ mulige intervall. Dette tallet K ganges med et tidsintervall for å bestemme ventetiden før datapakken sendes på nytt
+	- Hvorfor venter Binary Exponential Backoff eksponentielt lenge?      
+		- Hvis vi har få kollisjoner ønsker vi å vente kortere da det ikke er så stor sannsynlighet for at vi får kollisjoner. Vi velger derfor et tilfeldig intervall (K) som er i 2^n der n er antall kollisjoner så langt. Hvis vi har få kollisjoner får vi et kortere intervall å vente. Dersom det er mange kollisjoner vil antall intervaller vi kan sende øke eksponentielt fordi antall intervaller er 2^n. **På denne måten sørger vi for at tiden vi venter henger sammen med antall kollisjoner som har skjedd slik at vi ikke venter for kort eller for lenge**
+- Ethernet CSMA/CD        
+	- Hvilken MAC-protokoll bruker Ethernet?     
+		- **Unslotted** CSMA/CD with binary backoff
+	- Hva er forskjellen på Slotted og Unslotted CSMA/CD?     
+		- Unslotted venter ikke så slott-tider før den sender
+- TDMA / FDMA    
+- Polling     
+- Token passing    
+- MAC-adresse      
+	- Hvorfor trenger man MAC-adresser hvis man har IP-adresser?      
+		- MAC-adresser brukes primært for kommunikasjon mellom enheter innenfor samme nettverk (LAN). Layer 2 switches sender data videre basert på MAC-adresse og ikke IP-adresse. Dette går fortere enn å bruke IP-adresser
+	- Hva brukes MAC-adresser til?    
+		- Kommunikasjon på linklaget
+	- Hva er et annet ord for MAC-adresser?   
+		- Ethernet adresser
+- ARP    
+	- Hvordan fungerer ARP?     
+		- Alle enheter (hoster og rutere) har en ARP-tabell. Hvis en enhet ønsker å vite MAC-adressen til en host på samme subnet sender den ut en broadcast-melding: "Hva er MAC-adressen til IP x.x.x.x" Enheten med denne IP-adressen svarer tilbake. "Hei det er meg. Denne er min MAC-adresse"
+	- Når trenger man å bruke ARP?      
+		- Når man skal sende data til enheter innenfor samme nettverk
+	- Hvorfor trenger man å oversette mellom MAC-adresser og IP-adresser?    
+		- Fordi de fungerer på forskjellige lag i OSI-modellen. IP-adresser brukes for 
+	- Hvorfor har en verdiene i en ARP-tabell en TTL     
+		- Fordi verdiene kan endre seg så vi sørger for å ofte oppdatere de
+	- Hvem har en ARP tabell?    
+		- Alle enheter som tilkoblet et nettverk
+	- Hvis man sender en pakke til et annet subnet. Hvordan vet man ip-adressen til ruteren imellom?   
+		- Når enheten forsøker å sende en pakke til en IP-adresse utenfor det lokale subnettet, sammenligner den destinasjons-IP-adressen med sin egen IP-adresse og subnetmasken. Hvis destinasjons-IP-adressen ikke tilhører det lokale subnettet, vet enheten at den må sende pakken til gatewayen. Hver enhet som er koblet til nettverket, har også en konfigurert IP-adresse for ruteren på det lokale subnettet. Denne IP-adressen brukes som standardgateway for å videresende trafikk til andre subnets eller til Internett.
+- Broadcasting    
+	- Hva er en broadcast link?   
+		- En link som flere enheter bruker for å kommunisere. Det kalles en broadcast-link siden alle meldinger blir broadcastet til alle enhetene.  
+	- Hva brukes broadcast til?    
+		- Broadcast brukes for å sende en melding til alle enhetene i et nettverk. Dette f.eks med tanke på ARP og DHCP
+- Ethernet-Switch    
+	- Hva er flooding og hvorfor brukes det?    
+		- Når en pakke sendes inn til en switch og switchen ikke vet hvilket interface denne MAC-adressen kan nås på er vi nødt til å floode alle interfacene. Det betyr å sende pakken til alle interfacene og så vil kun det interfacet som er tilkoblet denne MAC-adressen ta imot pakken
+	- Hvordan lærer switchen adressene?   
+		- Når en node sender en pakke lærer switchen MAC-adressen til denne noden. **Ser altså på source MAC og kobler denne til interfacet.** Dersom alle nodene som er koblet til en switch har sendt en pakke vil switchen vite hvilken mac-adresse som hører til hvilket interface/port. Etter en periode vil disse adressene slettes fra tabellen. 
+- Cable Access Network   
+	- Hvilke former for MAC-protokoller bruker CAN?   
+		- For downstream brukes FDM
+		- For upstream brukes en blanding. Noen bruker TDM og andre bruker Random Access
+
+
+<h3 style="color:#F4B9B2">Relasjoner mellom begrep</h3>
+- Hva er forskjellen på Slotted ALOHA og CSMA   
+    - Slotted aloha sender alle når de vil. CSMA er høflig (Clarence Seedorf og Mikel Arteta er høflig). De venter på tur og sender når det er ledig
+    - Forskjell på Backoff algoritmer. CSMA bruker Backoff lager et eksponentielt stort intervall og sender i en tilfeldig verdi inne i det intervallet. Slotted ALOHA tar for hvert intervall som kommer å flipper kron og mynt om man skal sende i dette intervallet
+- Hva er forskjellen på Cyclic redundancy og Parity check    
+    - Cyclic redundancy er en mer avansert for for checksum. Mer avansert og bedre
+    - Parity check er enklere og sikrer at vi har partall antall 1-ere
+- Hvorfor er vi nødt til å bruke MAC-adresser. Kan vi ikke bare bruke IP-adresser for å sende meldinger på et lokalt nettverk?   
+	- Det er mer effektivt å bruke MAC-adresser på et lokalt nettverk
+- Hva er forskjellen på Channel Partitioning og Random Access mtp fordeler og ulemper    
+	- CP - Bra på high load, men lite efffektiv med low load (1 node for kun brukt 1/N del av nettet)
+	- RA - Bra på low load, men lite effektiv med high load (for mange kollisjoner)
+- Hva er forskjellen på Polling og Token passing?    
+	- Polling har en sentral kontroller som spør om man har noe å sende?
+	- Token passing bare sender rundt en token og den som har tokenen får sende. Ingen sentral kontroller
+- Hva er forskjellen på å finne MAC-adresse innenfor samme subnet og et annet subnet?    
+	- Samme: Sender en enkel ARP-request
+	- Annet: IP-adressen er hele tiden den samme. Sender først en ARP med MAC-adresse lik ruteren. Ruteren sender videre ARP-requesten til det riktige subnettet. 

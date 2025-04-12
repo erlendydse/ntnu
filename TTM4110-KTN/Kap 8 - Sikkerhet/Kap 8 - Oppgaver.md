@@ -1,107 +1,124 @@
+### Begreper
 
-<h3 style="color:#7190c9">Begreper</h3>
-- Konfidensialitet   
-- Symmetric key   
-- Public/Private key   
-- Integritet/Autetisering   
-- Digital signering    
-	- Hvordan fungerer digital signering?    
-		- Bob skriver en melding $m$. Han hasher denne meldingen og legger på sin private key $K^{-}$ for å lage $K^{-}(m)$. Sender $K^{-}(m)$ og $m$
-		- Alice sammenligner to versjoner: 1) $m$ som hun hasher = $h(m)$ og 2) bruker Bobs public key for å se om $K^{+}(K^{-}(h(m))) = h(m)$ 
-- Digital certificate
-	- Hva er det?
-		- Et sertifikat som inneholder en person sin public key. Den sertifiseres av CA
-- Message digest   
-	- Hvorfor?
-		- Lang tid å ta private public key på hele meldingen 
-	- Kan man få tilbake den originale meldingen etter at den har blitt hashet?
-		- Nei 
-- Sikker epost    
-	- Hvordan sikrer man konfidensialitet på epost?    
-		- Bruker asymetriske nøkler for å utlede en hemmelig symmetrisk nøkkel som brukes for å kryptere datapakkene
-- TLS    
-	- Hva settes opp først av TCP og TLS?   
-		- TCP kobling settes opp først og så settes TLS opp etterpå
-	- Hva betyr "Client Hello" og "Server Hello"?   
-		- Klienten sender først en "Client hello"-melding. Denne meldingen inneholder hvilken TLS-versjon klienten støtter, hvilken krypteringsalgoritme som skal brukes og et tilfeldig generert tall. Serveren svarer med "Server Hello" der den velger av menyen av det klienten har tilbudt, samt at den også genererer et tilfeldig tall
-	- Hva brukes det tilfeldige tallet som sendes ved en TCP-kobling til?   
-		- Brukes til å generere en nøkler som skal brukes under koblingen. 
-		- Brukes for å sikre mot "Connection replay"-attacks. Dersom en tredjepart skulle bedt om de samme pakkene på nytt vil det sendes med en ny TCP-kobling og derfor en ny tilfeldig nonce. Med denne noncen vil nøklene som genereres være annerledes og man vil ikke få tak i det krypterte innholdet
-	- Hva er en TLS record?
-		- Istedenfor å sende en stor lang melding med krypteringskode på slutten bryter man opp i flere små meldinger som hver har med sin MAC. 
-- IPsec    
-	- Hva er hovedtankegangen bak hvordan IPsec fungerer?     
-		- Bruke asymmetriske nøkler (public/private) til å utlede en felles symmetrisk nøkkel som brukes til kryptering
-- VPN    
-	- Hva er VPN?    
-		- En VPN, eller virtuelt privat nettverk, er en teknologi som gir en sikker og kryptert forbindelse mellom to punkter over et usikkert nettverk, vanligvis internett. Den oppretter en "virtuell" tunnel som lar deg sende og motta data på en måte som er beskyttet fra uautorisert innsyn eller manipulasjon.
-- Brannmur    
-	- Hvorfor bruker man brannmur? 
-		- En brannmur beskytter et privat nettverk mot uønsket trafikk 
-- Stateless   
-- Statefull   
-	- Hva kan være et problem med Stateful firewalls?  
-		- Dersom timeout-verdien på TCP koblingen er for aggressiv kan den unngå å sende gjennom pakker som egentlig trengs av enhetene 
-	- Hva er et eksempel på en pakke som Stateful ikke slipper gjennom   
-		- En TCP ACK dersom det ikke har blitt sendt en SYN
-		- En TCP FIN dersom ingen kobling er opprettet
-- Access Control Lists  
-- Application Gateways   
-	- Gi et eksempel på en tjeneste en Application Gateway kan gjennomføre? 
-		- La noen enkelte brukere få spesielle tjenester utenfor det interne nettverket
-- Sikkerhet over WiFi    
-	- Forklar i korte trekk hvordan det fungerer? 
-		- AP sier hvilke krypteringsmuligheter den har. Enhet velger den som den vil ha. 
-		- Begge bruker en delt hemmelighet (passord) og noncer for autentisering og for å utlede en nøkkel som skal brukes for kryptering WPA 3 handshake. 
-		- Deretter kan man bruke denne symmetriske nøkkelen for å sende kryptert informasjon 
-	- Shared symmetric session key derivation    
-		- Stater med at både enhet og AP kjenner til en hemmelig nøkkel $K_{AS-M}$ (passordet). Begge hostene prøver derfor å utlede en delt symmetrisk session- key, $K_{M-AP}$. 
-- Sikkerhet over Cellular     
-	- Man assosierer seg med en basestasjon.
-	- Autentisering skjer ved bruk av IMSI som ligger på SIMkort. Nøkler kan også ligge her
-	- Både enheten og nettverket autentiserer seg selv for hverandre. MME (mobility management entity) på besøkt nett sender til HSS (Home subscriber service) på hjemmenettverk.
+- **Konfidensialitet**  
+- **Symmetric key**  
+- **Public/Private key**  
+- **Integritet/Autentisering**  
+- **Digital signering**  
+  - Hvordan fungerer digital signering?  
+    - Bob skriver en melding $m$. Han hasher denne meldingen og legger på sin private key $K^{-}$ for å lage $K^{-}(m)$. Sender $K^{-}(m)$ og $m$  
+    - Alice sammenligner to versjoner:  
+      1) $m$ som hun hasher = $h(m)$  
+      2) bruker Bobs public key for å se om $K^{+}(K^{-}(h(m))) = h(m)$  
+- **Digital certificate**  
+  - Hva er det?  
+    - Et sertifikat som inneholder en person sin public key. Den sertifiseres av CA  
+- **Message digest**  
+  - Hvorfor?  
+    - Lang tid å ta i bruk private/public key på hele meldingen  
+  - Kan man få tilbake den originale meldingen etter at den har blitt hashet?  
+    - Nei  
+- **Sikker epost**  
+  - Hvordan sikrer man konfidensialitet på epost?  
+    - Bruker asymmetriske nøkler for å utlede en hemmelig symmetrisk nøkkel som brukes for å kryptere datapakkene  
+- **TLS**  
+  - Hva settes opp først av TCP og TLS?  
+    - TCP-kobling settes opp først, og så settes TLS opp etterpå  
+  - Hva betyr "Client Hello" og "Server Hello"?  
+    - Klienten sender først en "Client Hello"-melding med info om TLS-versjon, krypteringsalgoritmer og tilfeldig tall.  
+    - Server svarer med "Server Hello", velger algoritmer, og sender også et tilfeldig tall  
+  - Hva brukes det tilfeldige tallet til?  
+    - Brukes til å generere nøkler for sesjonen  
+    - Sikrer mot "Connection replay"-angrep  
+  - Hva er en TLS record?  
+    - En lang melding brytes opp i flere små meldinger med hver sin MAC  
+- **IPsec**  
+  - Hva er hovedtankegangen bak hvordan IPsec fungerer?  
+    - Bruke asymmetriske nøkler til å utlede en felles symmetrisk nøkkel  
+- **VPN**  
+  - Hva er VPN?  
+    - Virtuelt privat nettverk som gir en kryptert og sikker tunnel mellom enheter  
+- **Brannmur**  
+  - Hvorfor bruker man brannmur?  
+    - Beskytte nettverk mot uønsket trafikk  
+- **Stateless**  
+- **Stateful**  
+  - Hva kan være et problem med Stateful firewalls?  
+    - For aggressive timeout-verdier kan blokkere nyttige pakker  
+  - Eksempel på pakker Stateful ikke slipper gjennom:  
+    - TCP ACK uten SYN  
+    - TCP FIN uten opprettet kobling  
+- **Access Control Lists**  
+- **Application Gateways**  
+  - Eksempel:  
+    - Gi enkelte brukere spesialtilgang til tjenester utenfor det interne nettverket  
+- **Sikkerhet over WiFi**  
+  - Forklaring:  
+    - AP oppgir tilgjengelige krypteringsmetoder  
+    - Enheten velger metode  
+    - De utleder en delt nøkkel via WPA3-handshake og bruker den til å kryptere  
+  - Shared symmetric session key derivation:  
+    - Begge parter kjenner til en delt hemmelighet $K_{AS-M}$  
+    - Brukes til å utlede session key $K_{M-AP}$  
+- **Sikkerhet over Cellular**  
+  - Man kobler seg til en basestasjon  
+  - Autentisering via IMSI på SIM-kort  
+  - Enhet og nettverk autentiserer seg mot hverandre  
+  - MME sender info til HSS (hjemmenett)
 
+---
 
-<h3 style="color:#F4B9B2">Relasjoner</h3>
-- Hva er forskjellen på symmetric og public key?   
-	- Symmetric - krypteres og dekrypteres med en felles nøkkel
-	- Public - kryptering med mottakers public key. Deretter dekrypterer mottakeren med en egen private key
-- Hva er forskjellen og likheten på TLS og IPsec?     
-	- Forskjell - TLS er på applikasjonslaget, mens IPsec er på nettverkslaget
-	- Likhet - Begge gir konfidensialitet, data integritet og autentisering både på klient -og serversiden
-- Hva er relasjonen mellom IPsec og VPN?    
-	- IPsec brukes for å lage VPN
-- Hva er forskjellen på IPsec Transport mode og Tunnel mode?   
-	- I Transport mode er bare Payload som er kryptert. I Tunnel mode er hele datagrammet kryptert
-- Hva er forskjellen på AH og ESP?     
-	- Authentication Header (AH) og Encapsulation Security Payload (ESP)
-	- Begge har autentisering og integritet
-	- AH har <span style="color: #D5919C;font-weight:bold;">ikke</span> konfidensialitet. ESP <span style="color: #90CEA3;font-weight:bold;">har</span> konfidensialitet
-	- <span style="color: #F28990;">Huske på:</span> AH 2 bokstaver -> 2 tjenester. ESP 3 bokstaver -> 3 tjenester
-- Hva er forskjellen på sikkerhet over WiFi vs Cellular?     
-	- SIM-kortet på en mobil brukes som en global identitet og inneholder nøkler
-	- Kan være at man ikke har tilgang til tjenester på besøkte nettverk. Kommer an på abonnement på hjemmenettverk
-- Hva er forskjellen på stateless og stateful?   
-	- Stateless tracker pakker som ikke gir noen mening. Stateful tracker TCP-koblinger for å finne ut om pakkene "gir mening"
-- Hva er hovedforskjellen på stateless/stateful og Application Gateways?   
-	- Stateful/stateless er på nettverksdata på lavere lag i OSI-modellen
-	- AG tracker applikasjonsdata **i tillegg** til IP/TCP/UDP felter
-- Kort forklaring av kryptering, integritet og autentisering?     
-	- Kryptering
-		- Trenger: Symmetric key eller public/private key
-		- Metode: Bruker public/private key til å utlede en delt symmetrisk nøkkel. Denne nøkkelen brukes for å kryptere innholdet
-	- Digital signering
-		- Trenger: Public key encryption (privat nøkkel, CA og digitalt sertifikat)
-		- Kan være med: Hash
-		- Metode: Bruker privat nøkkel for å kryptere. Mottaker dekrypterer med offentlig nøkkel. Dersom meldingen er den samme må mottaker være riktig
-	- Integritet
-		- Trenger: Hash og delt autentiseringsnøkkel
-		- Metode: hver regner ut en MAC-kode. Dersom MAC-koden er lik er integritet sikret
-- Hva er likheten og forskjell på WPA 3, Cellular, TLS og IPsec?  
-	- Likhet - Man bruker en delt hemmelighet og nonce (tilfeldig generert verdi) og for å utlede nøkler som skal brukes for å kryptere informasjonen som skal sendes
-	- Ipsec - bruker symetrisk nøkkel til å utlede symetrisk nøkler som krypteres med
-	- Forskjell - hvordan man autentiserer hverandre. 
-		- TLS - digitalt sertifikat
-		- IPsec - digitalt sertifikat
-		- Wifi - passord/delt hemmelighet
-		- Cellular - Sim-kort
+### Relasjoner
+
+- **Forskjell på symmetric og public key:**  
+  - Symmetric: én felles nøkkel  
+  - Public: kryptering med public key, dekryptering med private key  
+
+- **Forskjell og likhet mellom TLS og IPsec:**  
+  - Forskjell: TLS = applikasjonslaget, IPsec = nettverkslaget  
+  - Likhet: Begge gir konfidensialitet, integritet og autentisering  
+
+- **Relasjon mellom IPsec og VPN:**  
+  - IPsec brukes til å lage VPN  
+
+- **Forskjell på IPsec Transport mode og Tunnel mode:**  
+  - Transport mode: bare payload kryptert  
+  - Tunnel mode: hele datagrammet kryptert  
+
+- **Forskjell på AH og ESP:**  
+  - AH: autentisering og integritet  
+  - ESP: autentisering, integritet **og** konfidensialitet  
+  - Merk:  
+    - AH = 2 bokstaver → 2 tjenester  
+    - ESP = 3 bokstaver → 3 tjenester  
+
+- **WiFi vs Cellular sikkerhet:**  
+  - WiFi: passord/delt hemmelighet  
+  - Cellular: SIM-kort med global identitet og nøkler  
+
+- **Stateless vs Stateful:**  
+  - Stateless: ser bare på enkeltpakker  
+  - Stateful: holder oversikt over tilkoblinger (TCP-stater)  
+
+- **Stateful/Stateless vs Application Gateways:**  
+  - Stateful/stateless: lavere nettverkslag  
+  - Application Gateway: ser også på applikasjonsdata  
+
+- **Kryptering, integritet og autentisering – kort forklaring:**  
+  - **Kryptering:**  
+    - Trenger symmetric eller public/private key  
+    - Utleder felles symmetrisk nøkkel for kryptering  
+  - **Digital signering:**  
+    - Trenger public key encryption (privat nøkkel + CA + sertifikat)  
+    - Metode: privat nøkkel krypterer → mottaker verifiserer med public key  
+  - **Integritet:**  
+    - Trenger hash + delt nøkkel  
+    - Begge parter lager MAC og sammenligner  
+
+- **Likheter og forskjeller på WPA3, Cellular, TLS og IPsec:**  
+  - **Likhet:** bruker delt hemmelighet og nonce for å utlede nøkler  
+  - **Forskjell – autentisering:**  
+    - TLS: digitalt sertifikat  
+    - IPsec: digitalt sertifikat  
+    - WiFi: passord  
+    - Cellular: SIM-kort  

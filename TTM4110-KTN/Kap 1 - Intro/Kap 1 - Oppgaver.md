@@ -1,24 +1,47 @@
-<h3 style="color:#93c6c3">Begreper og oppgaver</h3>
-- Access network    
-- Network Core    
-- Network Edge    
-- Propagation delay    
-- Transmission delay    
-- Queueing delay    
-- Proccessing delay    
-- Throughout    
-	- Hva er formel for throughput?    
-		- F/T, der F er bits og T sekundene det tar å motta
-- Circuit switching    
-- Packet switching    
+### Begreper og oppgaver
 
+- **Access network**  
+- **Network Core**  
+- **Network Edge**  
 
-<h3 style="color:#F4B9B2">Relasjoner mellom begreper</h3>
-- Hva er forskjellen på proccessing delay og transmission delay      
-	- Procccessing delay er tiden det tar å prosessere pakkens headerfelt, mens transmission delay er tiden det tar å flytte en pakke over på en link
-- Hva er fordelene med å bruke enten circuit eller packet switching?     
-	- Circuit er sikker 
-	- Packet er effekt
-- Hva er forskjellen på FDM og TDM?   
-	- Den primære forskjellen mellom FDM og TDM er hvordan de deler kanalen. FDM deler kanalen inn i to eller flere frekvensområder som ikke overlapper, mens TDM deler og tildeler bestemte tidsperioder til hver kanal på en vekslende måte. På grunn av dette faktum kan vi si at for TDM bruker hvert signal hele båndbredden noen ganger, mens for FDM bruker hvert signal en liten del av båndbredden hele tiden.
+- **Propagation delay**  
+- **Transmission delay**  
+- **Queueing delay**  
+- **Processing delay**  
 
+- **Throughput**  
+  - Hva er formelen for throughput?  
+    - \( \text{Throughput} = \frac{F}{T} \)  
+    - Der **F** = antall bits og **T** = tid i sekunder det tar å motta dem  
+
+- **Circuit switching**  
+- **Packet switching**
+
+---
+
+### Relasjoner mellom begreper
+
+- **Hva er forskjellen på processing delay og transmission delay?**  
+  - **Processing delay:** Tiden det tar å lese og prosessere headerinformasjonen i pakken  
+  - **Transmission delay:** Tiden det tar å sende alle bits i pakken over linken
+
+- **Fordeler med circuit vs packet switching**  
+  - **Circuit switching:**  
+    - Forutsigbar og pålitelig  
+    - Garantert båndbredde  
+    - Egnet for sanntidstjenester (telefon, video)  
+  - **Packet switching:**  
+    - Mer effektiv bruk av nettverksressurser  
+    - Skalerbart og fleksibelt  
+    - Tillater deling av båndbredde
+
+- **Hva er forskjellen på FDM og TDM?**  
+  - **FDM (Frequency Division Multiplexing):**  
+    - Deler kanalen i separate **frekvensbånd**  
+    - Hver kanal bruker sin tildelte frekvens **kontinuerlig**  
+  - **TDM (Time Division Multiplexing):**  
+    - Deler kanalen i **tidsluker**  
+    - Hver kanal får bruke hele båndbredden i sin tildelte **tidsslot**  
+  - Kort oppsummert:  
+    - **FDM:** Alle får litt båndbredde hele tiden  
+    - **TDM:** Alle får all båndbredde noen ganger

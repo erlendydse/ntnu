@@ -1,97 +1,106 @@
-<h3 style="color:#93c6c3">Begreper og oppgaver</h3>
-- TCP    
-	- Hva betyr det at TCP er byte-stream-orientert   
-		- Ser på data fra applikasjonslaget som en kontinuerlig strøm med bytes som det lages segmenter av før den sender det ut.
-- 3-Way Handshake
-- TCP-sender vs TCP-mottaker   
-- Multiplexing   
-- Demultiplexing   
-	- Hvordan skjer demultiplexing i transportlaget?
-		- Man får pakker fra nettverkslaget. Sjekke header, hente ut data og gi til riktig socket
-- Connectionless demultiplexing   
-- Connection-oriented demultiplexing   
-- ACK   
-	- Hva betyr nummeret som følger med en ACK   
-		- Sekvensnummer til neste forventede byte 
-- Sekvensnummer   
-	- Hva betyr segmentets sekvensnummeret   
-		- Bytenummeret til første byte som sendes i segmentet (IKKE NUMMER PÅ ANTALL SEGMENTER) 
-- Kumulativ ACK   
-	- Hva er en kumulativ ACK?   
-		- En kumulativ ACK(n) er en bekreftelse på alle pakker opptil et sekvensnummer n 
-- Selective Repeat   
-- Go-Back-N     
-	- Hvor stort kan vinduet være   
-		- En mindre enn sekvensnummerstørrelsen. For å kunne effektivt sjekke om det er en duplikat. Hvis vinduet er større enn sekvensnummerstørrelsen kan vi ha to pakker med samme sekvensnummer. Hvis vi da får en ACK vet vi ikke hvilken av de to pakkene dette hører sammen med 
-	- Hva er forskjellen på hvordan go-back-n og selective repeat sender ACKs   
-		- Selective repeat sender acks for alle pakkene individuelt, mens go-back-n sender acks for neste forventede pakke og så dupACK dersom den mottar feil
-- QUIC      
-	- Hva er QUIC og hvorfor brukes det?   
-		- Gir UDP Congestion Control, pålitelig dataoverføring og kan settes opp ved 1 RTT 
-- Flow Control    
-	- Hvordan fungerer Flow-Control   
-		- Mottaker opplyser om hvor mye bufferplass han har tilgjengelig i TCP-headeren. Sender begrenser hvor mye **unACKed** som sendes
-- Congestion Control    
-	- Hvorfor har man congestion control?    
-		- Unngå mye tap av data (ruterne blir overbelastet) - øker derfor ytelse (ved å holde en jevnere flyt av data i nettverket)
-		- Mer rettferdig da vi deler ressursene da ingen kan dominere båndbredden 
-	- Hvordan fungerer congestion control?    
-		- Slow start:
-			- Starter sakte (CWND = 1 MSS)-> øk eksponentielt
-		- Congestion Avoidance:
-			- Når man når treshold (CWND / 2 før timeout) -> øk lineært. Timeout -> Slow Start. 3 DupACKs -> Fast recovery
-		- Fast recovery:
-			- For å slippe å gå tilbake til slow start. (CWND / 2 før timeout)
-	- Hvordan opplever en klient at nettverket er congested?    
-		- Tap av ACKer 
-	- Hva er TCP Cubic    
-		-  ![[Pasted image 20240402141540.png|300]]
-		- Slow start øker fortere mot treshold 
-	- Hva er CWND?    
-		- CWND representerer mengden unACKed data som senderen kan ha i nettverket til enhver tid
-- Checksum    
-	- Hvis en sjekksum er riktig betyr det at pakken er rett?   
-		- Hvis checksum er lik kan det fortsatt være feil (f.eks. flipped bits). Checksum sier bare om det garantert er feil, men ikke at det garantert ikke er feil
+### Begreper og oppgaver
 
+- **TCP**  
+  - Hva betyr det at TCP er byte-stream-orientert?  
+    - Det ser på data fra applikasjonslaget som en kontinuerlig strøm av bytes, og segmenterer det før sending.
 
-<h3 style="color:#F4B9B2">Relasjoner mellom begreper</h3>
-- Hva er relasjonen mellom flow-control og congestion-control?    
-	- Begge er metoder for å regulere datastrømmen i et nettverk. Flow-control er mellom to hoster, mens congestion-control er i selve nettverket
-- Hva er forskjellen på end-to-end congestion control og network-assisted congestion control?   
-	- Hvor ansvaret ligger. I end-to-end ligger ansvaret for å oppdage og å rette opp hos endesystemene. I network assisted er det ruterne som oppdager og retter opp hvis det er for mange pakker som sendes
-- Hvordan er TCP en blanding av Selective-Repeat og Go-Back-N?     
-	- Selective-Repeat da den ikke kaster pakker som er out-of-order
-	- Go-Back-N fordi den sender DupACKs dersom den mottar en pakke out-of-order
-	- Go-Back-N fordi den har et sendervindu for å bestemme hvor mange segmenter som kan sendes uten å motta bekreftelse fra mottakeren
-- Komplett TCP vs UDP   
-	- Tjenester tilgjengelig?   
-	    - TCP → Congestion, Flow, Loss-free 
-	    - UDP → Best effort
-	- Hvilke 2 tjenester er ikke i TCP eller UDP?   
-	    - Delay garanti - hvor lang tid det tar før meldingen kommer frem
-	    - Båndbredde garanti - båndbredde tilgjengelig. Disse 2 kan ikke gjennomføres i pakkesvitsjete nettverk
-	- Hva er forskjellen på demultiplexing i TCP og UDP?    
-		- I UDP brukes kun 2 verdier (Dest Port og Dest IP). På denne måten kan man ikke skille klienter fra hverandre og en UDP socket flere klienter kan bruke en UDP socket samtidig
-		- I TCP brukes 4 verdier (Dest Port, Dest IP, Source Port og Source IP). Vi skiller klienter fra hverandre og kun 1 klient per socket
-	- Hvordan sendes informasjon?   
-		- UDP - som pakker med data
-		- TCP - som en kontinuerlig strøm med data
-	- Hvordan vet man hvor man skal sende informasjon tilbake?   
-		- TCP - åpnet en full duplex kobling
-		- UDP - sjekker headerverdier
-	- Sette opp kobling?   
-		- TCP - 3-Way-Handshake. SYN, SYN-ACK, ACK
-		- UDP - Setter ikke opp kobling
-	- Hva skjer i TCP og UDP dersom man mottar datagram med samme destinasjons-portnummer, men fra ulike sendere   
-		- UDP kommer dette inn i samme socket, mens i TCP blir dette en annen socket
-	- Hvordan blir en socket definert i TCP vs UDP   
-		- UDP - 2 verdier. Destinasjonens ip-adresse og destinasjonens portnummer
-		- TCP - 4 verdier. Senders ip-adresse, senders portnummer, destinasjonens ip-adresse og destinasjonens portnummer
-	- Hva er en god analogi for hvordan TCP og UDP sockets fungerer   
-		- TCP er som en telefon. Du ringer og mottakeren svarer og dere deler informasjon. UDP er som et postbud som sender ut post til mange samtidig og kan motta fra mange forskjellige samtidig
-	- Hvem har checksum?   
-		- Begge 
-	- Hvilke headerfelt finnes i den ene men ikke den andre?
-		- TCP
-			- Sekvensnummer og ACK-nr. Dette er for å sikre RDT som UDP ikke bryr seg noe om. Trenger derfor ikke disse feltene
-			- TCP har window felt for flow control. Dette har ikke UDP
+- **3-Way Handshake**  
+
+- **TCP-sender vs TCP-mottaker**  
+
+- **Multiplexing**  
+- **Demultiplexing**  
+  - Hvordan skjer demultiplexing i transportlaget?  
+    - Transportlaget får pakker fra nettverkslaget, sjekker header og gir dataen videre til riktig socket.
+
+- **Connectionless vs Connection-oriented demultiplexing**
+
+- **ACK**  
+  - Hva betyr nummeret som følger med en ACK?  
+    - Det er sekvensnummeret til neste forventede byte.
+
+- **Sekvensnummer**  
+  - Hva betyr et segments sekvensnummer?  
+    - Det er bytenummeret til den første byten som sendes i segmentet (ikke antall segmenter!).
+
+- **Kumulativ ACK**  
+  - Hva er det?  
+    - En ACK(n) bekrefter at alle bytes frem til n er mottatt korrekt.
+
+- **Selective Repeat vs Go-Back-N**  
+  - Go-Back-N:  
+    - Vinduet kan være én mindre enn sekvensnummerstørrelsen.  
+    - Sender ACK kun for neste forventede pakke.  
+  - Selective Repeat:  
+    - Sender ACKs for alle mottatte pakker, selv om de er ute av rekkefølge.
+
+- **QUIC**  
+  - Hva er det og hvorfor brukes det?  
+    - Transportprotokoll basert på UDP, gir pålitelighet og congestion control. Kan etableres raskere (1 RTT).
+
+- **Flow Control**  
+  - Hvordan fungerer det?  
+    - Mottakeren oppgir bufferplass i headeren. Sender begrenser hvor mye **unACKed** data som sendes.
+
+- **Congestion Control**  
+  - Hvorfor brukes det?  
+    - Hindre overbelastning i nettverket → mindre tap og bedre flyt.  
+    - Fordeler båndbredde rettferdig.
+
+  - Hvordan fungerer det?  
+    - **Slow start:**  
+      - Starter med CWND = 1 MSS, dobles for hver ACK.  
+    - **Congestion Avoidance:**  
+      - Når threshold nås → øk CWND lineært. Timeout → tilbake til slow start.  
+      - 3 DupACKs → Fast Recovery.  
+    - **Fast Recovery:**  
+      - Gå ikke helt tilbake til start etter 3 duplikate ACKs.  
+
+  - Hvordan vet klienten at det er congestion?  
+    - Mottar ikke ACKs (pakker tapt).  
+
+  - Hva er TCP Cubic?  
+    - Forbedring på congestion control – CWND vokser raskere før threshold.  
+    - *(Bilde referanse: `Pasted image 20240402141540.png` – legg inn separat om ønskelig)*
+
+  - Hva er CWND?  
+    - "Congestion Window" – hvor mye **unACKed** data senderen kan ha i nettverket samtidig.
+
+- **Checksum**  
+  - Hvis checksum er riktig, betyr det at pakken er feilfri?  
+    - Nei. Den kan likevel være feil (f.eks. to flipped bits kan kansellere hverandre).
+
+---
+
+### Relasjoner mellom begreper
+
+- **Flow-Control vs Congestion-Control**  
+  - Flow-Control: mellom **host og host**  
+  - Congestion-Control: i **selve nettverket**
+
+- **End-to-end vs Network-assisted Congestion Control**  
+  - End-to-end: sender/mottaker oppdager og reagerer på congestion  
+  - Network-assisted: rutere hjelper til (f.eks. ECN-bit, eksplisitt feedback)
+
+- **Hvordan er TCP en blanding av Selective Repeat og Go-Back-N?**  
+  - TCP kaster ikke out-of-order pakker (Selective Repeat)  
+  - TCP bruker Duplicate ACKs (Go-Back-N)  
+  - Har sender-vindu som begrenser antall u-acknowledged segmenter (Go-Back-N)
+
+- **TCP vs UDP – Komplett sammenligning**  
+
+  | Egenskap | TCP | UDP |
+  |----------|-----|-----|
+  | Pålitelighet | ✅ Ja (ACK, re-sending) | ❌ Nei (best-effort) |
+  | Flow control | ✅ | ❌ |
+  | Congestion control | ✅ | ❌ |
+  | Tjenester ikke støttet | ❌ Delay garanti, ❌ Båndbredde garanti |
+  | Demultiplexing | 4-tuple (IP+Port fra begge sider) | 2-tuple (Dest IP + Port) |
+  | Kommunikasjonstype | Byte-strøm | Pakker |
+  | Returvei | Bruker etablert kobling | Leses fra header |
+  | Oppsett | 3-Way Handshake | Ingen |
+  | Socket-definisjon | 4 felt (src IP, src port, dest IP, dest port) | 2 felt (dest IP, dest port) |
+  | Flere forbindelser til samme port | Ja – skiller på IP/port | Nei – samme socket brukes |
+  | Analogier | TCP = telefonsamtale, UDP = postkort |
+  | Checksum | ✅ | ✅ |
+  | Ekstra headerfelt | Sekvensnr, ACK, vindustørrelse | Ikke til stede i UDP |

@@ -1,45 +1,59 @@
-<h3 style="color:#93c6c3">Begreper og oppgaver</h3>
-- HTTP    
-	- Hva er forskjellen på persistent connection og non-persistent       
-		- Persistent - Alle forespørsler og svar blir sendt over samme forbindelse
-		- Non-persistent connection - Her må klienten opprette en ny kobling til serveren for hver forespørsel
-	- Bruker den persistent eller non-persistent?     
-		- Persistent fra HTTP/2.0
-- Get    
-- Conditional-Get   
-	- Får man tak i en nettside hvis man sender en conditional-get?      
-		- Nei kun en beskjed på om nettsiden er endret
-	- Hvordan ser man om man har en conditional Get?     
-		- Hvis den har et if-modified-since felt 
-	- Hvem er det som sender en conditional-get (bruker eller webcach)?     
-		- Brukeren ber om en ressurs fra webcachen. **Webcachen sender conditional-get til serveren.** Dersom serveren sier 304 Not Modified sender Webcachen den cachede versjonen til brukeren
-- Webcaches     
-- Cookies   
-	- Hvordan fungerer cookies?    
-		- ![[Pasted image 20240330172642.png]]
-- Buffer   
-- Encoding   
-- DASH   
-- Manifestfil   
-	- Hvor ligger manifestfilen?    
-		- I CDN nettverk 
-- CDN   
-- DNS   
-	- Hva gjør DNS?   
-		- Oversetter domenenavn til IP-adresser 
-- Socket   
-	- What is purpose of a socket?    
-		- For å opprette en kobling slik at man kan sende informasjon til hverandre. Blir som å ringe til hverandre. Man må opprette kontakt før man kan begynne å snakke 
+### Begreper og oppgaver
 
+- **HTTP**  
+  - Hva er forskjellen på persistent og non-persistent connection?  
+    - **Persistent:** Alle forespørsler og svar sendes over samme forbindelse.  
+    - **Non-persistent:** Klienten må opprette en ny kobling for hver forespørsel.  
+  - Hvilken brukes?  
+    - HTTP bruker persistent fra versjon 1.1 og spesielt i HTTP/2.0 og videre.
 
-<h3 style="color:#F4B9B2">Relasjoner mellom begreper</h3>
-- Hva er forskjellen på TCP og HTTP
-	- TCP er som posten. Den jobber med å sikre overføringen av brevene
-	- HTTP er hva som står inne i brevene. Hva som etterspørres og hva som sendes
-- Hva er forskjellen på get og Conditional-get?     
-	- Get henter en nettside
-	- Conditional-get spør om den nettsiden den har er oppdatert versjon
-- Hva er sammenhengen mellom Webcaches og Conditional-Get?      
-	- En bruker spør om en nettside. Denne forespørselen blir sendt videre til webcachen. Webcachen sender en conditional-get til den originiale serveren. Den originale serveren sender en 304 Not modified. Webcachen sender den cachede versjonen til brukeren eller en helt ny versjon dersom den er endret siden sist
-- Hva er forskjellen på temporal og spatial encoding?     
-	- Temporal ser på bits som endrer seg. Spatial ser på bits som ligger etter hverandre
+- **GET**  
+- **Conditional-GET**  
+  - Får man tak i en nettside hvis man sender en Conditional-GET?  
+    - Nei, man får bare beskjed om nettsiden er endret.  
+  - Hvordan kjenner man igjen en Conditional-GET?  
+    - Den har et `If-Modified-Since`-felt.  
+  - Hvem sender Conditional-GET?  
+    - Webcachen sender den til serveren. Hvis serveren svarer med **304 Not Modified**, sendes den cachede versjonen til brukeren.
+
+- **Webcaches**  
+- **Cookies**  
+  - Hvordan fungerer cookies?  
+    - *(Bilde referanse: `Pasted image 20240330172642.png`) – du kan legge til bildet manuelt eller beskrive det her)*  
+
+- **Buffer**  
+- **Encoding**  
+- **DASH (Dynamic Adaptive Streaming over HTTP)**  
+- **Manifestfil**  
+  - Hvor ligger den?  
+    - I CDN-nettverk  
+
+- **CDN (Content Delivery Network)**  
+- **DNS**  
+  - Hva gjør DNS?  
+    - Oversetter domenenavn til IP-adresser  
+
+- **Socket**  
+  - What is the purpose of a socket?  
+    - Å etablere en forbindelse slik at enheter kan sende og motta data – som en telefonsamtale, man må først "ringe opp".
+
+---
+
+### Relasjoner mellom begreper
+
+- **Hva er forskjellen på TCP og HTTP?**  
+  - **TCP** er som posten: sørger for at brevet kommer frem.  
+  - **HTTP** er innholdet i brevet: hva som etterspørres og leveres.
+
+- **Hva er forskjellen på GET og Conditional-GET?**  
+  - **GET**: Henter en nettside uansett.  
+  - **Conditional-GET**: Spør kun om innholdet er endret siden sist.
+
+- **Hva er sammenhengen mellom Webcaches og Conditional-GET?**  
+  - Bruker spør om en nettside → Webcachen sender Conditional-GET til serveren  
+  - Hvis server svarer med **304 Not Modified**, sender cachen sin versjon  
+  - Hvis endret, caches ny versjon og sendes videre  
+
+- **Hva er forskjellen på temporal og spatial encoding?**  
+  - **Temporal encoding:** Ser på hva som endrer seg mellom bilder (bevegelse).  
+  - **Spatial encoding:** Ser på bildeinformasjon som ligger etter hverandre i samme bilde (romlig kompresjon).
